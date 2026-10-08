@@ -14,24 +14,35 @@ export default function App() {
     let active = true;
 
     async function loadInitial() {
-      const { data, error } = await supabase
-        .from("grid_squares")
-        .select("board_id, square_id, color");
+      const PAGE = 1000;
+      const all: { board_id: number; square_id: number; color: string }[] = [];
 
-      if (error) {
-        console.error("Fetch error:", error);
-        return;
+      for (let from = 0; ; from += PAGE) {
+        const { data, error } = await supabase
+          .from("grid_squares")
+          .select("board_id, square_id, color")
+          .order("board_id", { ascending: true })
+          .order("square_id", { ascending: true })
+          .range(from, from + PAGE - 1);
+
+        if (error) {
+          console.error("Fetch error:", error);
+          return;
+        }
+        if (!data || data.length === 0) break;
+        all.push(...data);
+        if (data.length < PAGE) break;
       }
+
       if (!active) return;
 
       const grouped: BoardsState = {};
-      for (const row of data) {
+      for (const row of all) {
         if (!grouped[row.board_id]) grouped[row.board_id] = {};
         grouped[row.board_id][row.square_id] = row.color;
       }
       setBoards(grouped);
       setLoading(false);
-      console.log("Initial load done, rows:", data.length);
     }
 
     loadInitial();
@@ -43,7 +54,7 @@ export default function App() {
         "postgres_changes",
         { event: "UPDATE", schema: "public", table: "grid_squares" },
         (payload) => {
-          console.log("Realtime event:", payload);
+          console.log("Realtime:", payload.new);
           const row = payload.new as {
             board_id: number;
             square_id: number;
