@@ -1,0 +1,12 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(16, 20px);
+  grid-template-rows: repeat(16, 20px);
+  width: fit-content;
+}
+
+.cell {
+  border: 1px solid #999;
+  border-radius: 6px;
+  cursor: pointer;
+}

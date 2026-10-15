@@ -1,4 +1,5 @@
 import { SQUARES_PER_BOARD, type BoardState } from "../types";
+import styles from "./Board.module.css";
 
 type Props = {
   boardId: number;
@@ -8,26 +9,15 @@ type Props = {
 
 export function Board({ boardId, cells, onCellClick }: Props) {
   return (
-    <div style={{ width: "fit-content" }}>
-      <h3 style={{ margin: "0 0 0" }}>Board {boardId + 1}</h3>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(16, 20px)",
-          gridTemplateRows: "repeat(16, 20px)",
-          width: "fit-content",
-        }}
-      >
+    <div>
+      <h3>Board {boardId + 1}</h3>
+      <div className={styles.grid}>
         {Array.from({ length: SQUARES_PER_BOARD }, (_, squareId) => (
           <button
             key={squareId}
             onClick={() => onCellClick(boardId, squareId)}
-            style={{
-              background: cells[squareId] ?? "#FFF1E8",
-              border: "1px solid #999",
-              borderRadius: 6,
-              cursor: "pointer",
-            }}
+            className={styles.cell}
+            style={{ background: cells[squareId] ?? "#FFF1E8" }}
             aria-label={`Board ${boardId + 1}, square ${squareId + 1}`}
           />
         ))}

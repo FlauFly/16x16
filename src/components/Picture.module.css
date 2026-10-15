@@ -1,0 +1,10 @@
+.picture {
+  display: grid;
+  grid-template-columns: repeat(16, 4px);
+  grid-template-rows: repeat(16, 4px);
+}
+
+.cell {
+  width: 4px;
+  height: 4px;
+}

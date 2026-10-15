@@ -1,4 +1,5 @@
 import { COLORS, type Color } from "../types";
+import styles from "./ColorPicker.module.css";
 
 type Props = {
   selected: Color;
@@ -7,27 +8,13 @@ type Props = {
 
 export function ColorPicker({ selected, onChange }: Props) {
   return (
-    <div
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "center",
-        gap: 10,
-        marginBottom: 20,
-      }}
-    >
+    <div className={styles.picker}>
       {COLORS.map((c) => (
         <button
           key={c}
           onClick={() => onChange(c)}
-          style={{
-            width: 40,
-            height: 40,
-            background: c,
-            border: selected === c ? "3px solid #ccc" : "2px solid #000",
-            borderRadius: 8,
-            cursor: "pointer",
-          }}
+          className={`${styles.swatch} ${selected === c ? styles.selected : ""}`}
+          style={{ background: c }}
           aria-label={`Select color ${c}`}
         />
       ))}
