@@ -3,6 +3,8 @@ import { supabase } from "./utils/supabase";
 import { Board } from "./components/Board";
 import { ColorPicker } from "./components/ColorPicker";
 import { COLORS, BOARD_COUNT, type Color, type BoardsState } from "./types";
+import { Picture } from "./components/Picture";
+import styles from "./App.module.css";
 
 export default function App() {
   const [boards, setBoards] = useState<BoardsState>({});
@@ -100,27 +102,31 @@ export default function App() {
     }
   }
 
-  if (loading) return <p style={{ padding: 20 }}>Loading boards...</p>;
+  if (loading) return <p className={styles.loading}>Loading boards...</p>;
 
   return (
-    <div style={{ padding: 20, fontFamily: "system-ui" }}>
-      <h1>Shared Boards</h1>
+    <div className={styles.page}>
+      <h1>Drawing Boards</h1>
 
       <ColorPicker selected={selectedColor} onChange={setSelectedColor} />
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-          gap: 24,
-        }}
-      >
+      <div className={styles.boards}>
         {Array.from({ length: BOARD_COUNT }, (_, boardId) => (
           <Board
             key={boardId}
             boardId={boardId}
             cells={boards[boardId] ?? {}}
             onCellClick={handleSquareClick}
+          />
+        ))}
+      </div>
+      <h2>Result Pictures</h2>
+      <div className={styles.pictures}>
+        {Array.from({ length: BOARD_COUNT }, (_, boardId) => (
+          <Picture
+            key={boardId}
+            boardId={boardId}
+            cells={boards[boardId] ?? {}}
           />
         ))}
       </div>

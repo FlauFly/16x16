@@ -7,7 +7,15 @@ type Props = {
 
 export function ColorPicker({ selected, onChange }: Props) {
   return (
-    <div style={{ display: "flex", gap: 10, marginBottom: 20 }}>
+    <div
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "center",
+        gap: 10,
+        marginBottom: 20,
+      }}
+    >
       {COLORS.map((c) => (
         <button
           key={c}
@@ -16,7 +24,7 @@ export function ColorPicker({ selected, onChange }: Props) {
             width: 40,
             height: 40,
             background: c,
-            border: selected === c ? "3px solid #000" : "2px solid #ccc",
+            border: selected === c ? "3px solid #ccc" : "2px solid #000",
             borderRadius: 8,
             cursor: "pointer",
           }}

@@ -8,13 +8,14 @@ type Props = {
 
 export function Board({ boardId, cells, onCellClick }: Props) {
   return (
-    <div>
-      <h3 style={{ margin: "0 0 8px" }}>Board {boardId + 1}</h3>
+    <div style={{ width: "fit-content" }}>
+      <h3 style={{ margin: "0 0 0" }}>Board {boardId + 1}</h3>
       <div
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(16, 20px)",
           gridTemplateRows: "repeat(16, 20px)",
+          width: "fit-content",
         }}
       >
         {Array.from({ length: SQUARES_PER_BOARD }, (_, squareId) => (
